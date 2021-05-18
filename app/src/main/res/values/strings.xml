@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">Insight</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="username">User name</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="login">Login</string>
+    <string name="login_preferences" translatable="false">com.msah.insight.utils.SharedPreference</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email">Email</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
+    <string name="link_title">Link title</string>
+    <string name="save_to_local">Save to local</string>
+
+    <string name="facebook_app_id">1116812078713469</string>
+    <string name="fb_login_protocol_scheme">fb1116812078713469</string>
+
+    <string name="enter_address_or_search">Enter address or search</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="are_link_title">Link</string>
+    <string name="are_link_insert_hint">Insert a link</string>
+    <string name="are_image_insert_hint">Insert an image</string>
+
+
+    <string name="title_activity_are__video_player">ARE Video</string>
+    <string name="btn_attach_video">Attach Video</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_default_image_preview">ARE DefaultImagePreviewActivity</string>
+    <string name="action_new_board">New Board</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+</resources>

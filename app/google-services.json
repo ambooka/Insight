@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "321255060959",
+    "project_id": "insight-msah",
+    "storage_bucket": "insight-msah.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:321255060959:android:c881252284e98a63da806a",
+        "android_client_info": {
+          "package_name": "com.msah.insight"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "321255060959-koedoakrnnc0mcbe7v62tc59f79fivjq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFrliYLvBdmlvb9k_kphMV1xDV8Y90YsI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "321255060959-koedoakrnnc0mcbe7v62tc59f79fivjq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

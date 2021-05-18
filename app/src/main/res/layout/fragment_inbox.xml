@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/bar_layout_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <com.msah.insight.views.CircleImageView
+                android:id="@+id/profileImage_msg"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/username_msg"
+                android:layout_marginStart="25dp"
+                android:textStyle="bold"
+                android:textColor="@color/colorAccent"
+                android:layout_marginLeft="25dp" />
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMsg"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <LinearLayout
+        android:id="@+id/bottom"
+
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:padding="5dp"
+        >
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_draw"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:scaleType="center"
+            android:src="@drawable/ic_draw" />
+
+
+
+        <EditText
+            android:id="@+id/textSend"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:maxLines="6"
+            android:padding="10dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/rounded_edittext"
+            android:hint="Type a message..." />
+
+        <Space
+            android:layout_width="4dp"
+            android:layout_height="0dp"/>
+        <!--TODO: image_click in  android:background="@drawable/image_click"
+        -->
+        <ImageView
+            android:id="@+id/btnSend"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:scaleType="center"
+            android:src="@drawable/ic_send" />
+
+    </LinearLayout>
+</LinearLayout>

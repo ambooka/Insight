@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/settings"
+        android:title="Settings"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/logout"
+        android:title="Use other account"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/test"
+        android:title="Test"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/editText_search"
+        android:title="Search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always"/>
+
+</menu>

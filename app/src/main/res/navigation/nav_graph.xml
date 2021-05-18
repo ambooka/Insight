@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/Login">
+
+    <fragment
+        android:id="@+id/Login"
+        android:name="com.msah.insight.fragments.LoginFragment"
+        android:layout="@layout/fragment_login"
+        android:label="Login" >
+
+        <action
+            android:id="@+id/action_Login_to_homePage"
+            app:destination="@id/homePage" />
+        <action
+            android:id="@+id/action_Login_to_resetPassword"
+            app:destination="@id/resetPassword" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/homePage"
+        android:name="com.msah.insight.fragments.HomeFragment"
+        android:label="fragment_home_page"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homePage_to_startFragment"
+            app:destination="@id/Login" />
+        <action
+            android:id="@+id/action_homePage_to_msgFragment"
+            app:destination="@id/msgFragment" />
+        <action
+            android:id="@+id/action_home_page_to_users"
+            app:destination="@id/usersFragment" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/msgFragment"
+        android:name="com.msah.insight.fragments.InboxFragment"
+        android:label="fragment_msg"
+        tools:layout="@layout/fragment_inbox" >
+
+        <action
+            android:id="@+id/action_msg_to_homeFragment"
+            app:destination="@id/homePage" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/resetPassword"
+        android:name="com.msah.insight.fragments.ResetPassword"
+        android:label="fragment_reset_password"
+        tools:layout="@layout/fragment_reset_password" />
+
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="com.msah.insight.fragments.UsersFragment"
+        android:label="fragment_users"
+        tools:layout="@layout/fragment_users">
+
+        <action
+            android:id="@+id/action_users_to_msg"
+            app:destination="@id/msgFragment" />
+
+
+    <action
+        android:id="@+id/action_users_to_homeFragment"
+        app:destination="@id/homePage" />
+</fragment>
+
+
+</navigation>
