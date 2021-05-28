@@ -45,7 +45,7 @@ import java.util.Set;
 
 public class IllustratorView extends ScrollView {
 
-    public static final int PIXEL_SIZE = (int)0.1;
+    public static final int PIXEL_SIZE = 1;
     private Paint mPaint;
     private int mLastX;
     private int mLastY;
@@ -317,6 +317,7 @@ public class IllustratorView extends ScrollView {
 
             paint.setStrokeWidth(10);
             mBuffer.drawPath(getPathForPoints(segment.getPoints(), mScale), paint);
+            mBuffer.drawPath(mPath, mPaint);
         }
 
     }

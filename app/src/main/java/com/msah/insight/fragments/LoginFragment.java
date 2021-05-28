@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -51,6 +55,7 @@ public class LoginFragment extends Fragment {
     private NavController navController;
     private FirebaseUser firebaseUser;
     private FirebaseAuth auth;
+    private View view;
 
 
     public LoginFragment() {
@@ -93,7 +98,11 @@ public class LoginFragment extends Fragment {
         MainActivity.fragClass = getClass();
         navController = NavHostFragment.findNavController(this);
         checkUser();
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+         view  = inflater.inflate(R.layout.fragment_login, container, false);
+
+        TextInputLayout tilConfirmPassword = view.findViewById(R.id.til_confirmPassword);
+        TextInputLayout tilPassword = view.findViewById(R.id.til_password);
+
 
         register = (Button)view.findViewById(R.id.btn_register);
         login = (Button)view.findViewById(R.id.btn_login);
@@ -101,6 +110,41 @@ public class LoginFragment extends Fragment {
         email = (EditText)view.findViewById(R.id.tv_email);
         password = (EditText)view.findViewById(R.id.tv_password);
         confirmPassword = (EditText)view.findViewById(R.id.tv_confirmPass);
+
+        // Add text change listeners to passwords EditTex
+        password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tilPassword.setEndIconMode(TextInputLayout.END_ICON_PASSWORD_TOGGLE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        confirmPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tilConfirmPassword.setEndIconMode(TextInputLayout.END_ICON_PASSWORD_TOGGLE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         auth = FirebaseAuth.getInstance();
         register.setOnClickListener(new View.OnClickListener() {
@@ -110,13 +154,27 @@ public class LoginFragment extends Fragment {
                 String txtEmail = Objects.requireNonNull(email.getText()).toString();
                 String txtPassword = Objects.requireNonNull(password.getText()).toString();
 
-                if(TextUtils.isEmpty(txtUsername) || TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtPassword))
-                    Toast.makeText(getContext(),"All fields are required", Toast.LENGTH_SHORT).show();
-                else if(txtPassword.length() < 6 )
-                    Toast.makeText(getContext(),"password must be must be a least 6 characters", Toast.LENGTH_SHORT).show();
-                else
-                    signUp(txtUsername,txtEmail,txtPassword);
+                if (TextUtils.isEmpty(txtUsername)) {
+                    userName.setError("Required");
 
+                }
+                if (TextUtils.isEmpty(txtEmail)) {
+                    email.setError("Required");
+                }
+                if (TextUtils.isEmpty(txtPassword)) {
+                    tilPassword.setEndIconMode(TextInputLayout.END_ICON_NONE);
+                    password.setError("Required");
+                }
+
+                if (!password.getText().toString().equals(confirmPassword.getText().toString()) && !TextUtils.isEmpty(txtPassword)) {
+                    tilConfirmPassword.setEndIconMode(TextInputLayout.END_ICON_NONE);
+                    confirmPassword.setError("The passwords do not match");
+                } else if (txtPassword.length() < 6) {
+                    tilConfirmPassword.setEndIconMode(TextInputLayout.END_ICON_NONE);;
+                    confirmPassword.setError("Password must be must be a least 6 characters");
+
+                }else
+                signUp(txtUsername, txtEmail, txtPassword);
             }
         });
         login.setOnClickListener(new View.OnClickListener() {
@@ -126,7 +184,8 @@ public class LoginFragment extends Fragment {
                 String txtPassword = Objects.requireNonNull(password.getText()).toString();
 
                 if(TextUtils.isEmpty(txtEmail) || TextUtils.isEmpty(txtPassword))
-                    Toast.makeText(getContext(),"All fields are required", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, "All fields are required", Snackbar.LENGTH_SHORT).show();
+
                 else
                 {
                     auth.signInWithEmailAndPassword(txtEmail,txtPassword).addOnCompleteListener(task -> {
@@ -137,7 +196,7 @@ public class LoginFragment extends Fragment {
 
                         }
                         else
-                            Toast.makeText(getContext(),"Email or password not valid ", Toast.LENGTH_SHORT).show();
+                            Snackbar.make(view, "Invalid email or password", Snackbar.LENGTH_SHORT).show();
 
                     });
                 }
@@ -181,6 +240,8 @@ public class LoginFragment extends Fragment {
             }
             else
                 Toast.makeText(getContext(), "register not success", Toast.LENGTH_SHORT).show();
+            Snackbar.make(view, "Connection error", Snackbar.LENGTH_SHORT).show();
+
         });
     }
 
