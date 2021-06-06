@@ -143,7 +143,6 @@ public class IllustratorActivity extends AppCompatActivity  {
             @Override
             public void onPickColor(int color) {
                 Toast.makeText(getApplication(), "Color "+ color, Toast.LENGTH_SHORT).show();
-                mDrawingView.drawRect();
                 if(color == -1){
                     mDrawingView.setStrokeSize(30);
                 }
@@ -397,6 +396,14 @@ public class IllustratorActivity extends AppCompatActivity  {
 
             }
         });
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (mDrawingView != null) {
+            mDrawingView.addListener(mFirebaseRef.child("boardsegments").child(mBoardId));
+        }
     }
 
     @Override

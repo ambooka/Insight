@@ -18,7 +18,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.msah.insight.R;
 import com.msah.insight.adapters.UserAdapter;
 import com.msah.insight.models.UserModel;
@@ -30,9 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
 
-import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -98,9 +100,23 @@ public class ClassFragment extends Fragment
         return view ;
     }
 
-    private void tokenFunc()
-    {
-        updateToken(FirebaseInstanceId.getInstance().getToken());
+    private void tokenFunc(){
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        updateToken(token);
+
+
+                        Toast.makeText(getContext(), token, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void listener()

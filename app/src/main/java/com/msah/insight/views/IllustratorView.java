@@ -65,16 +65,6 @@ public class IllustratorView extends ScrollView {
     private int mCanvasWidth;
     private int mCanvasHeight;
 
-    private int mPivotX = 0;
-    private int mPivotY = 0;
-    private int radius = 60;
-
-    String mText = "text to be tested";
-    TextPaint mTextPaint;
-    StaticLayout mStaticLayout;
-    private IToolbar mToolbar;
-
-    Rect rectangle;
 
 
 
@@ -83,7 +73,6 @@ public class IllustratorView extends ScrollView {
     public IllustratorView(Context context, DatabaseReference ref) {
 
         this(context, ref, 10);
-        initLabelView();
     }
     public IllustratorView(Context context, DatabaseReference ref, int width, int height) {
         this(context, ref);
@@ -99,6 +88,21 @@ public class IllustratorView extends ScrollView {
         this.mFirebaseRef = ref;
         this.mScale = scale;
 
+        addListener(ref);
+
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
+        mPaint.setDither(true);
+        mPaint.setColor(0xFFFF0000);
+        mPaint.setStrokeWidth(10);
+        mPaint.setStyle(Paint.Style.STROKE);
+
+
+
+        mBitmapPaint = new Paint(Paint.DITHER_FLAG);
+    }
+
+    public void addListener(DatabaseReference ref){
         mListener = ref.addChildEventListener(new ChildEventListener() {
             /**
              * @param dataSnapshot The data we need to construct a new Segment
@@ -139,18 +143,6 @@ public class IllustratorView extends ScrollView {
                 // No-op
             }
         });
-
-
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mPaint.setDither(true);
-        mPaint.setColor(0xFFFF0000);
-        mPaint.setStrokeWidth(10);
-        mPaint.setStyle(Paint.Style.STROKE);
-
-
-
-        mBitmapPaint = new Paint(Paint.DITHER_FLAG);
     }
 
     public void removeListener() {
@@ -162,23 +154,6 @@ public class IllustratorView extends ScrollView {
         mPaint.setColor(color);
     }
 
-    public void drawText(String text) {
-
-
-        Canvas canvas = new Canvas(mBitmap);
-        TextPaint tp = new TextPaint();
-        tp.setColor(Color.WHITE);
-        tp.setTextSize(80);
-        tp.setAntiAlias(true);
-
-// split line
-        StaticLayout staticLayout = new StaticLayout("Title text", tp,
-                mBuffer.getWidth(), Layout.Alignment.ALIGN_CENTER, 1, 0, false);
-        int yPos = (mBuffer.getHeight() / 2) - (staticLayout.getHeight() / 2);
-        mBuffer.translate(0, yPos);
-        staticLayout.draw(mBuffer);
-        canvas.restore();
-     }
     public void setStrokeSize(int stokeSize){
         mCurrentStrokeSize = stokeSize;
         mPaint.setStrokeWidth(mCurrentStrokeSize);
@@ -203,75 +178,17 @@ public class IllustratorView extends ScrollView {
         Log.i("AndroidDrawing", "onSizeChanged: created bitmap/buffer of "+mBitmap.getWidth()+"x"+mBitmap.getHeight());
     }
 
-    public void drawCircle() {
-
-        int minX = radius * 2;
-        int maxX = getWidth() - (radius *2 );
-
-        int minY = radius * 2;
-        int maxY = getHeight() - (radius *2 );
-
-        //Generate random numbers for x and y locations of the circle on screen
-        Random random = new Random();
-        mPivotX = random.nextInt(maxX - minX + 1) + minX;
-        mPivotY = random.nextInt(maxY - minY + 1) + minY;
-
-        //important. Refreshes the view by calling onDraw function
-        invalidate();
-    }
-
-    public void drawRect() {
-        invalidate();
-    }
-
-
-    private void initLabelView() {
-        mTextPaint = new TextPaint();
-        mTextPaint.setAntiAlias(true);
-        mTextPaint.setTextSize(16 * getResources().getDisplayMetrics().density);
-        mTextPaint.setColor(mPaint.getColor());
-
-        // default to a single line of text
-        width = (int) mTextPaint.measureText(mText);
-
-
-        mStaticLayout = new StaticLayout(mText, mTextPaint, width, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0, true);
 
 
 
-
-        // New API alternate
-        //
-        // StaticLayout.Builder builder = StaticLayout.Builder.obtain(mText, 0, mText.length(), mTextPaint, width)
-        //        .setAlignment(Layout.Alignment.ALIGN_NORMAL)
-        //        .setLineSpacing(1, 0) // multiplier, add
-        //        .setIncludePad(false);
-        // mStaticLayout = builder.build();
-    }
     @Override
     protected void onDraw(Canvas canvas) {
         // Final
         canvas.drawColor(Color.WHITE);
-        canvas.drawRect(0, 0, radius, radius, mPaint);
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
-        //canvas.drawRect(0, 0, mBitmap.getWidth(), mBitmap.getHeight(), paintFromColor(Color.WHITE, Paint.Style.FILL_AND_STROKE));
         canvas.drawPath(mPath, mPaint);
-        canvas.drawCircle(mPivotX, mPivotY, radius, mPaint);
 
-        int textHeight = mStaticLayout.getHeight();
 
-        // get position of text's top left corner
-        //float x = (canvas.getWidth() - width)/2;
-       // float y = (canvas.getHeight() - textHeight)/2;
-        //canvas.translate(x, y);
-        int y = 100;
-        for(int i = 0; i<mText.length(); i++) {
-            canvas.save();
-            canvas.translate(100, y);
-          //  mStaticLayout.draw(canvas);
-            canvas.restore();
-            y += 50;
-        }
 
     }
 
