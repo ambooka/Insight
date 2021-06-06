@@ -411,6 +411,8 @@ public class IllustratorActivity extends AppCompatActivity  {
         super.onBackPressed();
     }
 
+
+
     public static String encodeToBase64(Bitmap image) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.PNG, 100, baos);

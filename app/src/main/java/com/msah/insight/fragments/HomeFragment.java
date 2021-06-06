@@ -222,6 +222,7 @@ public class HomeFragment extends Fragment
                     for(DataSnapshot snapshot2: snapshot1.getChildren())
                     {
                         MessageModel chat = snapshot2.getValue(MessageModel.class);
+                        assert chat != null;
                         if(chat.getReceiver().equals(firebaseUser.getUid())
                                 && !chat.isSeen() )
                             unread++;
