@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.text.InputType;
 import android.text.TextUtils;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.msah.insight.activities.NotesActivity;
 import com.msah.insight.R;
 import com.msah.insight.adapters.ViewPagerAdapter;
@@ -113,11 +115,29 @@ public class HomeFragment extends Fragment
     {
 
         TabLayout tabLayout = view.findViewById(R.id.home_tabs);
-        ViewPager viewPager =view.findViewById(R.id.home_viewpager);
+        ViewPager2 viewPager =view.findViewById(R.id.home_viewpager);
      // ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(((getActivity())).getSupportFragmentManager());
-         viewPagerAdapter = new ViewPagerAdapter(this.getActivity().getSupportFragmentManager());
+         viewPagerAdapter = new ViewPagerAdapter(this);
         viewPager.setAdapter(viewPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+
+        new TabLayoutMediator(tabLayout, viewPager,
+                new TabLayoutMediator.TabConfigurationStrategy() {
+                    @Override public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                        tab.setText("Tab " + (position + 1));
+                        switch (position){
+                            case 0:
+                                tab.setText("Class");
+                                break;
+                            case 1:
+                                tab.setText("Notes");
+                                break;
+                            case 2:
+                                tab.setText("Boards");
+                                break;
+                        }
+                    }
+                }).attach();
+
         badgeWithNumber = Objects.requireNonNull(tabLayout.getTabAt(0)).getOrCreateBadge();
         badgeWithNumber.setVisible(false);
         addClass = view.findViewById(R.id.add_chat);
