@@ -10,6 +10,7 @@ import android.graphics.RadialGradient;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.drawable.Animatable;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -30,6 +31,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.msah.insight.colorpicker.ColorPickerListener;
 import com.msah.insight.colorpicker.ColorPickerView;
+import com.msah.insight.customLoadingView.DensityUtil;
 import com.msah.insight.notifications.Data;
 import com.msah.insight.styles.IStyle;
 import com.msah.insight.styles.toolbar.IToolbar;
@@ -43,13 +45,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class IllustratorView extends ScrollView {
+public class IllustratorView extends ScrollView implements Animatable {
 
     public static final int PIXEL_SIZE = 1;
     private Paint mPaint;
     private int mLastX;
     private int mLastY;
-    int width;
     private Canvas mBuffer;
     private Bitmap mBitmap;
     private Paint mBitmapPaint;
@@ -58,16 +59,11 @@ public class IllustratorView extends ScrollView {
     private int mCurrentColor = 0xFFFF0000;
     private int mCurrentStrokeSize = 10;
     private Path mPath;
-
     private Set<String> mOutstandingSegments;
     private Segment mCurrentSegment;
     private float mScale = 1.0f;
     private int mCanvasWidth;
     private int mCanvasHeight;
-
-
-
-
 
 
     public IllustratorView(Context context, DatabaseReference ref) {
@@ -98,7 +94,6 @@ public class IllustratorView extends ScrollView {
         mPaint.setStyle(Paint.Style.STROKE);
 
 
-
         mBitmapPaint = new Paint(Paint.DITHER_FLAG);
     }
 
@@ -113,6 +108,7 @@ public class IllustratorView extends ScrollView {
                 String name = dataSnapshot.getKey();
                 // To prevent lag, we draw our own segments as they are created. As a result, we need to check to make
                 // sure this event is a segment drawn by another user before we draw it
+
                 if (!mOutstandingSegments.contains(name)) {
                     // Deserialize the data into our Segment class
                     Segment segment = dataSnapshot.getValue(Segment.class);
@@ -264,9 +260,9 @@ public class IllustratorView extends ScrollView {
 
     private void onTouchEnd() {
         mPath.lineTo(mLastX * PIXEL_SIZE, mLastY * PIXEL_SIZE);
+
+
         mBuffer.drawPath(mPath, mPaint);
-
-
 
         mPath.reset();
         DatabaseReference segmentRef = mFirebaseRef.push();
@@ -317,4 +313,18 @@ public class IllustratorView extends ScrollView {
         return true;
     }
 
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
+
+    @Override
+    public boolean isRunning() {
+        return false;
+    }
 }

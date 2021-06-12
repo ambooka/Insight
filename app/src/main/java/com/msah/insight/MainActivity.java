@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         {
             // back to pre fra+gment
             navController.navigate(R.id.action_msg_to_homeFragment);
-            refreshFragment();
+             refreshFragment();
             sharedPreference.setUser("");
             return;
         }

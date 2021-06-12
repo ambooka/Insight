@@ -21,9 +21,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.msah.insight.activities.NotesActivity;
 import com.msah.insight.R;
 import com.msah.insight.adapters.ViewPagerAdapter;
@@ -116,7 +116,6 @@ public class HomeFragment extends Fragment
         ViewPager viewPager =view.findViewById(R.id.home_viewpager);
      // ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(((getActivity())).getSupportFragmentManager());
          viewPagerAdapter = new ViewPagerAdapter(this.getActivity().getSupportFragmentManager());
-       Toast.makeText(getContext(), "Home page", Toast.LENGTH_SHORT).show();
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         badgeWithNumber = Objects.requireNonNull(tabLayout.getTabAt(0)).getOrCreateBadge();
@@ -143,7 +142,7 @@ public class HomeFragment extends Fragment
                     public void onClick(DialogInterface dialog, int which) {
                         String    noteTitle = input.getText().toString();
                         if (TextUtils.isEmpty(noteTitle)){
-                            Toast.makeText(getContext(), "Invalid title", Toast.LENGTH_SHORT).show();
+                            Snackbar.make(view, "Invalid title", Snackbar.LENGTH_SHORT).show();
                         }
 
 
@@ -210,7 +209,6 @@ public class HomeFragment extends Fragment
         }
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats");
-        Toast.makeText(getContext(), reference.toString(), Toast.LENGTH_SHORT).show();
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot)

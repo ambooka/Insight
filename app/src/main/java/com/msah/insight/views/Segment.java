@@ -31,4 +31,7 @@ public class Segment {
     public int getColor() {
         return color;
     }
+
+    public void addPoint(float v, float v1) {
+    }
 }

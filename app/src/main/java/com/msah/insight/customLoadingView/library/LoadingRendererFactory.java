@@ -13,6 +13,8 @@ public final class LoadingRendererFactory {
     static {
         //shape change
         LOADING_RENDERERS.put(15, CoolWaitLoadingRenderer.class);
+
+
     }
 
     private LoadingRendererFactory() {

@@ -2,11 +2,10 @@ package com.msah.insight.views;
 
 
 public class Point {
-    int x;
-    int y;
+    public int x;
+    public int y;
 
     // Required default constructor for Firebase serialization / deserialization
-    @SuppressWarnings("unused")
     private Point() {
     }
 

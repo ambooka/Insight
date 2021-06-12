@@ -18,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -91,9 +90,10 @@ public class ClassFragment extends Fragment
                              Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.classes_fragment, container, false);
+        recyclerView = view.findViewById(R.id.recyclerViewChat);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
-        buildRecyclerView(view);
         initialize();
         listener();
         tokenFunc();
@@ -113,8 +113,6 @@ public class ClassFragment extends Fragment
                         String token = task.getResult();
                         updateToken(token);
 
-
-                        Toast.makeText(getContext(), token, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -232,24 +230,6 @@ public class ClassFragment extends Fragment
         setUsersId = new HashSet<>();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
-    }
-
-    private void buildRecyclerView(View view)
-    {
-        recyclerView = view.findViewById(R.id.recyclerViewChat);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-
-        super.onPause();
     }
 
 }
