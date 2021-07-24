@@ -31,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.msah.insight.MainActivity;
 import com.msah.insight.R;
 import com.msah.insight.activities.IllustratorActivity;
 import com.msah.insight.adapters.FirebaseListAdapter;
@@ -51,6 +52,7 @@ public class SolutionsFragment extends Fragment {
     private DatabaseReference mRef;
     private DatabaseReference mBoardsRef;
     private DatabaseReference mSegmentsRef;
+    private DatabaseReference   userReference;
     private FirebaseListAdapter<HashMap> mBoardListAdapter;
     private ValueEventListener mConnectedListener;
     private NavController navController;
@@ -104,6 +106,7 @@ public class SolutionsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mRef = FirebaseDatabase.getInstance().getReference("Boards");
+        userReference= FirebaseDatabase.getInstance().getReference("Users");
         mBoardsRef = mRef.child("boardmetas");
         mBoardsRef.keepSynced(true); // keep the board list in sync
         mSegmentsRef = mRef.child("boardsegments");
@@ -194,6 +197,8 @@ public class SolutionsFragment extends Fragment {
         // create a new board
         final DatabaseReference newBoardRef = mBoardsRef.push();
         Map<String, Object> newBoardValues = new HashMap<>();
+        String userId = MainActivity.sharedPreference.getIdUser();
+        newBoardValues.put("Creator", userId);
         newBoardValues.put("createdAt", ServerValue.TIMESTAMP);
         android.graphics.Point size = new android.graphics.Point();
         getActivity().getWindowManager().getDefaultDisplay().getSize(size);
@@ -222,10 +227,15 @@ public class SolutionsFragment extends Fragment {
     }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        menu.clear();
         super.onCreateOptionsMenu(menu, inflater);
+
+        menu.clear();
+
+
+            getActivity().getMenuInflater().inflate(R.menu.menu_board_list, menu);
+
         // Inflate the menu; this adds items to the action bar if it is present.
-        getActivity().getMenuInflater().inflate(R.menu.menu_board_list, menu);
+
 
     }
 
@@ -237,7 +247,6 @@ public class SolutionsFragment extends Fragment {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -246,8 +255,6 @@ public class SolutionsFragment extends Fragment {
         if (id == R.id.action_new_board) {
             createBoard();
         }
-
-
         return super.onOptionsItemSelected(item);
     }
 

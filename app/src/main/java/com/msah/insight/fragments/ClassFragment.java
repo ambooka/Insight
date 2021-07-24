@@ -38,6 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -80,10 +81,8 @@ public class ClassFragment extends Fragment
         super.onCreateOptionsMenu(menu, inflater);
 
         // Inflate the menu; this adds items to the action bar if it is present.
-        getActivity().getMenuInflater().inflate(R.menu.menu_main, menu);
-
+        requireActivity().getMenuInflater().inflate(R.menu.menu_main, menu);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,7 +107,6 @@ public class ClassFragment extends Fragment
                         if (!task.isSuccessful()) {
                             return;
                         }
-
                         // Get new FCM registration token
                         String token = task.getResult();
                         updateToken(token);

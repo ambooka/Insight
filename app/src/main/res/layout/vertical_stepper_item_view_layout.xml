@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/vertical_stepper_item_view_layout"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+	<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_marginStart="@dimen/vertical_stepper_point_margin_start"
+			android:layout_marginEnd="@dimen/vertical_stepper_point_margin_end"
+			android:orientation="vertical"
+			android:gravity="center_horizontal"
+		android:layout_marginLeft="@dimen/vertical_stepper_point_margin_start"
+		android:layout_marginRight="@dimen/vertical_stepper_point_margin_end">
+
+
+		<com.google.android.material.circularreveal.cardview.CircularRevealCardView
+				android:layout_width="@dimen/stepper_point_size"
+				android:layout_height="@dimen/stepper_point_size">
+
+			<!-- Stepper Point -->
+			<com.msah.insight.views.ClipOvalFrameLayout
+					android:id="@+id/stepper_point_frame"
+					android:layout_width="@dimen/stepper_point_size"
+					android:layout_height="@dimen/stepper_point_size"
+					android:background="@drawable/rounded_edittext">
+
+				<View
+						android:id="@+id/stepper_point_background"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:background="@color/green"/>
+
+				<TextView
+						android:id="@+id/stepper_number"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center"
+						tools:text="1"
+						android:textSize="12sp"
+						android:maxLines="1"
+						android:maxLength="2"
+						android:textColor="@android:color/white"/>
+
+				<ImageView
+						android:id="@+id/stepper_done_icon"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center"
+						android:alpha="0"
+						android:src="@drawable/check"
+						android:importantForAccessibility="no"/>
+
+			</com.msah.insight.views.ClipOvalFrameLayout>
+			<ImageView
+					android:id="@+id/stepper_error_icon"
+					android:layout_width="@dimen/stepper_point_size"
+					android:layout_height="@dimen/stepper_point_size"
+					android:src="@drawable/eraser"
+				    android:alpha="0"
+					android:importantForAccessibility="no"
+				    app:tint="@color/teal_200" />
+
+		</com.google.android.material.circularreveal.cardview.CircularRevealCardView>
+
+		<!-- Vertical Stepper Line -->
+		<View
+			android:id="@+id/stepper_line"
+			android:layout_width="2dp"
+			android:layout_height="match_parent" />
+
+	</LinearLayout>
+
+	<LinearLayout
+			android:id="@+id/stepper_right_layout"
+			android:layout_width="0dp"
+			android:layout_weight="1"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:layout_marginEnd="24dp"
+			android:animateLayoutChanges="true"
+		    android:layout_marginRight="24dp">
+
+		<TextView
+				android:id="@+id/stepper_title"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textAppearance="@style/TextAppearance.MaterialCompat.Body2"
+				android:maxLines="2"
+				tools:text="Title"/>
+
+		<EditText
+				android:id="@+id/stepper_summary"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textAppearance="@style/TextAppearance.MaterialCompat.Body1"
+				tools:text="Summary"/>
+
+		<FrameLayout
+				android:id="@+id/stepper_custom_view"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				tools:visibility="gone"/>
+
+		<View android:id="@+id/stepper_margin_bottom"
+			android:layout_width="match_parent"
+			android:layout_height="28dp"/>
+
+	</LinearLayout>
+
+</LinearLayout>

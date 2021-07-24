@@ -8,8 +8,9 @@
     <fragment
         android:id="@+id/Login"
         android:name="com.msah.insight.fragments.LoginFragment"
-        android:layout="@layout/fragment_login"
-        android:label="Login" >
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
+
 
         <action
             android:id="@+id/action_Login_to_homePage"
@@ -36,6 +37,9 @@
             app:destination="@id/usersFragment" />
 
 
+        <action
+            android:id="@+id/action_home_page_to_quiz"
+            app:destination="@id/quiz" />
     </fragment>
 
     <fragment
@@ -70,6 +74,17 @@
         android:id="@+id/action_users_to_homeFragment"
         app:destination="@id/homePage" />
 </fragment>
+
+
+
+    <fragment
+        android:id="@+id/quiz"
+        android:name="com.msah.insight.fragments.QuizFragment"
+        android:label="fragment_users"
+        tools:layout="@layout/fragment_vertical_stepper">
+
+
+    </fragment>
 
 
 </navigation>

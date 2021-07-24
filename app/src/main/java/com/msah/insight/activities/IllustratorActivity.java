@@ -109,7 +109,7 @@ public class IllustratorActivity extends AppCompatActivity  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+       requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_illustrator);
@@ -214,8 +214,7 @@ public class IllustratorActivity extends AppCompatActivity  {
                     mDrawingView.setStrokeSize(10);
                     containerMain.addView(mDrawingView);
                    // containerMain.scrollTo(1000,1000);
-                    IToolItem fontColor = new ToolItem_FontColor();
-                    IToolItem hr = new ToolItem_Hr();
+
 
 
                 }

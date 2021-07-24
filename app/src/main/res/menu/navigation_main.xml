@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<group android:checkableBehavior="single">
+
+		<item android:id="@+id/item_vertical_stepper"
+		      android:title="Vertical stepper"
+			  android:checked="true"/>
+
+		<item android:id="@+id/item_vertical_stepper_adapter"
+		      android:title="vertical_stepper_adapter"/>
+
+	</group>
+
+	<item android:title="About">
+
+		<menu>
+
+			<item android:id="@+id/action_alipay_donate"
+			      android:title="Donate me" />
+
+			<item android:id="@+id/action_fork_on_github"
+			      android:title="Fork on Github"
+				/>
+
+		</menu>
+
+	</item>
+
+</menu>

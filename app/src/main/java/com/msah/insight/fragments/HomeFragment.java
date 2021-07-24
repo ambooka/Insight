@@ -75,12 +75,12 @@ public class HomeFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         // Inflate the layout for this fragment
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         View view  = inflater.inflate(R.layout.fragment_home, container, false);
         Toolbar toolbar =  view.findViewById(R.id.toolbar_home);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
 
         return view;
 
@@ -209,14 +209,10 @@ public class HomeFragment extends Fragment
                     addClass.hide();
                     addNote.hide();
                 }
-
             }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 

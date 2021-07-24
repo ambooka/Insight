@@ -12,6 +12,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
+import com.msah.insight.R;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -148,6 +149,7 @@ public abstract class FirebaseListAdapter<T> extends BaseAdapter {
         mModelKeys.clear();
     }
 
+
     @Override
     public int getCount() {
         return mModels.size();
@@ -196,7 +198,9 @@ public abstract class FirebaseListAdapter<T> extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
-            view = mInflater.inflate(mLayout, viewGroup, false);
+           // view = mInflater.inflate(mLayout, viewGroup, false);
+             view = mInflater.inflate(R.layout.board_item, null, true);
+
         }
 
         T model = mModels.get(i);

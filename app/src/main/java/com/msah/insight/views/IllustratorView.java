@@ -1,26 +1,18 @@
 package com.msah.insight.views;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.RadialGradient;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.graphics.drawable.Animatable;
-import android.text.Layout;
-import android.text.StaticLayout;
-import android.text.TextPaint;
-import android.util.DisplayMetrics;
+import android.graphics.PathEffect;
+import android.graphics.PathMeasure;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ScrollView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -28,24 +20,16 @@ import com.google.firebase.database.DataSnapshot;
 
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.msah.insight.colorpicker.ColorPickerListener;
-import com.msah.insight.colorpicker.ColorPickerView;
-import com.msah.insight.customLoadingView.DensityUtil;
-import com.msah.insight.notifications.Data;
-import com.msah.insight.styles.IStyle;
-import com.msah.insight.styles.toolbar.IToolbar;
-import com.msah.insight.styles.toolitems.IToolItem;
-import com.msah.insight.styles.toolitems.ToolItem_FontColor;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
-public class IllustratorView extends ScrollView implements Animatable {
+public class IllustratorView extends ScrollView {
 
     public static final int PIXEL_SIZE = 1;
     private Paint mPaint;
@@ -58,45 +42,130 @@ public class IllustratorView extends ScrollView implements Animatable {
     private ChildEventListener mListener;
     private int mCurrentColor = 0xFFFF0000;
     private int mCurrentStrokeSize = 10;
-    private Path mPath;
+    private Path mPath, dBPath;
     private Set<String> mOutstandingSegments;
     private Segment mCurrentSegment;
     private float mScale = 1.0f;
     private int mCanvasWidth;
     private int mCanvasHeight;
 
+    public int counter = 0;
+
+    ObjectAnimator animator = ObjectAnimator.ofFloat(IllustratorView.this, "phase", 1.0f, 0.0f);
+
+
+
+    private float length;
 
     public IllustratorView(Context context, DatabaseReference ref) {
 
         this(context, ref, 10);
     }
+
     public IllustratorView(Context context, DatabaseReference ref, int width, int height) {
         this(context, ref);
-        this.setBackgroundColor(Color.DKGRAY);
         mCanvasWidth = width;
         mCanvasHeight = height;
     }
+
     public IllustratorView(Context context, DatabaseReference ref, float scale) {
         super(context);
 
         mOutstandingSegments = new HashSet<String>();
         mPath = new Path();
+        dBPath = new Path();
         this.mFirebaseRef = ref;
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Segment segment;
+                List<Segment> incomingSegments = new ArrayList<>();
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    segment = ds.getValue(Segment.class);
+                    String name = ds.getKey();
+                        incomingSegments.add(segment);
+                }
+
+                animator.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+
+                    }
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                            if(counter <= incomingSegments.size()-1) {
+
+                                Segment sg = incomingSegments.get(counter);
+                                dBPath.reset();
+                                drawSegment(sg, paintFromColor(sg.getColor()));
+                                invalidate();
+                                addListener(ref);
+                                counter += 1;
+                            }
+
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+        ref.addListenerForSingleValueEvent(valueEventListener);
         this.mScale = scale;
-
         addListener(ref);
-
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
         mPaint.setColor(0xFFFF0000);
         mPaint.setStrokeWidth(10);
         mPaint.setStyle(Paint.Style.STROKE);
-
-
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPaint.setStrokeJoin(Paint.Join.ROUND);
+        mPaint.setShadowLayer(0.2f, 0, 0, Color.RED);
         mBitmapPaint = new Paint(Paint.DITHER_FLAG);
     }
-
+    public void init(Segment segment) {
+        Segment testSeg = segment;
+        List<Point> points = testSeg.getPoints();
+        float scale = 1 * PIXEL_SIZE;
+        Point current = points.get(0);
+        dBPath.moveTo(Math.round(scale * current.x), Math.round(scale * current.y));
+        Point next = null;
+        for (int i = 1; i < points.size(); ++i) {
+            next = points.get(i);
+            dBPath.quadTo(
+                    Math.round(scale * current.x), Math.round(scale * current.y),
+                    Math.round(scale * (next.x + current.x) / 2), Math.round(scale * (next.y + current.y) / 2)
+            );
+            current = next;
+        }
+        if (next != null) {
+            dBPath.lineTo(Math.round(scale * next.x), Math.round(scale * next.y));
+        }
+        PathMeasure measure = new PathMeasure(dBPath, false);
+        length = measure.getLength();
+        float[] intervals = new float[]{length, length};
+        animator.setDuration(3000);
+        animator.start();
+      //  mBuffer.drawPath(getPathForPoints(segment.getPoints(), mScale), mPaint);
+    }
+    public void setPhase(float phase){
+        mPaint.setPathEffect(createPathEffect(length, phase, 0.0f));
+        invalidate();
+    }
+    private static PathEffect createPathEffect(float pathLength, float phase, float offset){
+        return new DashPathEffect(new float[]{pathLength, pathLength}, Math.max(phase*pathLength, offset));
+    }
     public void addListener(DatabaseReference ref){
         mListener = ref.addChildEventListener(new ChildEventListener() {
             /**
@@ -108,12 +177,12 @@ public class IllustratorView extends ScrollView implements Animatable {
                 String name = dataSnapshot.getKey();
                 // To prevent lag, we draw our own segments as they are created. As a result, we need to check to make
                 // sure this event is a segment drawn by another user before we draw it
-
-                if (!mOutstandingSegments.contains(name)) {
+                if(!mOutstandingSegments.contains(name)){
                     // Deserialize the data into our Segment class
                     Segment segment = dataSnapshot.getValue(Segment.class);
+                    dBPath.reset();
                     drawSegment(segment, paintFromColor(segment.getColor()));
-
+                   mOutstandingSegments.add(name);
                     // Tell the view to redraw itself
                     invalidate();
                 }
@@ -160,32 +229,24 @@ public class IllustratorView extends ScrollView implements Animatable {
         mBuffer = new Canvas(mBitmap);
         mCurrentSegment = null;
         mOutstandingSegments.clear();
+        dBPath.reset();
         invalidate();
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldW, int oldH) {
         super.onSizeChanged(w, h, oldW, oldH);
-
         mScale = Math.min(1.0f * w / mCanvasWidth, 1.0f * h / mCanvasHeight);
-
         mBitmap = Bitmap.createBitmap(Math.round(mCanvasWidth * mScale), Math.round(mCanvasHeight * mScale), Bitmap.Config.ARGB_8888);
         mBuffer = new Canvas(mBitmap);
-        Log.i("AndroidDrawing", "onSizeChanged: created bitmap/buffer of "+mBitmap.getWidth()+"x"+mBitmap.getHeight());
     }
-
-
-
 
     @Override
     protected void onDraw(Canvas canvas) {
-        // Final
-        canvas.drawColor(Color.WHITE);
         canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
         canvas.drawPath(mPath, mPaint);
-
-
-
+        //canvas.drawPath(dBPath, mPaint);
+        mBuffer.drawPath(dBPath, mPaint);
     }
 
     public static Paint paintFromColor(int color) {
@@ -218,19 +279,17 @@ public class IllustratorView extends ScrollView implements Animatable {
         if (next != null) {
             path.lineTo(Math.round(scale * next.x), Math.round(scale * next.y));
         }
+
+
         return path;
     }
-
-
-
-
 
     private void drawSegment(Segment segment, Paint paint) {
         if (mBuffer != null) {
 
             paint.setStrokeWidth(10);
-            mBuffer.drawPath(getPathForPoints(segment.getPoints(), mScale), paint);
-            mBuffer.drawPath(mPath, mPaint);
+            init(segment);
+
         }
 
     }
@@ -255,6 +314,7 @@ public class IllustratorView extends ScrollView implements Animatable {
             mLastX = x1;
             mLastY = y1;
             mCurrentSegment.addPoint(mLastX, mLastY);
+
         }
     }
 
@@ -274,7 +334,6 @@ public class IllustratorView extends ScrollView implements Animatable {
         for (Point point: mCurrentSegment.getPoints()) {
             segment.addPoint((int)Math.round(point.x / mScale), (int)Math.round(point.y / mScale));
         }
-
         // Save our segment into Firebase. This will let other clients see the data and add it to their own canvases.
         // Also make a note of the outstanding segment name so we don't do a duplicate draw in our onChildAdded callback.
         // We can remove the name from mOutstandingSegments once the completion listener is triggered, since we will have
@@ -313,18 +372,4 @@ public class IllustratorView extends ScrollView implements Animatable {
         return true;
     }
 
-    @Override
-    public void start() {
-
-    }
-
-    @Override
-    public void stop() {
-
-    }
-
-    @Override
-    public boolean isRunning() {
-        return false;
-    }
 }

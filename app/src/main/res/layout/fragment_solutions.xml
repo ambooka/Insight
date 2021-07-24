@@ -3,16 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp"
-    android:theme="@style/Theme.AppCompat.Light"
-    android:icon="@drawable/ic_draw"
-    android:logo="@drawable/ic_draw">
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:theme="@style/Theme.AppCompat.Light">
 
     <ListView
         android:layout_width= "wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/BoardList" />
+        android:id="@+id/BoardList"
+        android:divider="@null"
+        android:dividerHeight="10.0sp"/>
 </RelativeLayout>

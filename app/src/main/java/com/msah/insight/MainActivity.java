@@ -2,63 +2,32 @@ package com.msah.insight;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
-import androidx.viewpager.widget.ViewPager;
 
-import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.text.InputType;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.badge.BadgeDrawable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.msah.insight.activities.NotesActivity;
 import com.msah.insight.activities.SettingsActivity;
-import com.msah.insight.activities.TestActivity;
-import com.msah.insight.adapters.ViewPagerAdapter;
-import com.msah.insight.fragments.LoginFragment;
+import com.msah.insight.fragments.QuizFragment;
+import com.msah.insight.test.TestActivity;
 import com.msah.insight.fragments.SolutionsFragment;
-import com.msah.insight.fragments.UsersFragment;
-import com.msah.insight.models.MessageModel;
-import com.msah.insight.models.UserModel;
 import com.msah.insight.utils.SharedPreference;
 import com.msah.insight.utils.SyncedBoardManager;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 
@@ -104,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        SolutionsFragment solutionsFragment = new SolutionsFragment();
 
         return true;
 
@@ -122,11 +90,13 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.logout:
                 //sharedPreference.setUser("");
-                Intent test =  new Intent(this, com.msah.insight.illustratorShapes.MainActivity.class);
-                startActivity(test);
+                //Intent test =  new Intent(this, com.msah.insight.test.TestQsns.class);
+               // startActivity(test);
+                navController.navigate(R.id.action_home_page_to_quiz);
+
                 return true;
             case R.id.test:
-                test =  new Intent(this, TestActivity.class);
+               Intent test =  new Intent(this, TestActivity.class);
                 startActivity(test);
             case R.id.editText_search:
 

@@ -46,12 +46,8 @@
                     android:layout_height="wrap_content"
                     android:text="Title"
                     android:textAllCaps="true"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textColor="@color/black"
                     android:textSize="30dp"
-                    android:shadowColor="#000"
-                    android:shadowDx="12"
-                    android:shadowDy="12"
-                    android:shadowRadius="8"
                     android:textStyle="bold" />
 
                 <TextView
@@ -59,13 +55,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="108dp"
                     android:textSize="20dp"
-                    android:text="Description"
-                    android:shadowColor="#000"
-                    android:shadowDx="12"
-                    android:shadowDy="12"
-                    android:shadowRadius="4"
-                    android:textAppearance="?attr/textAppearanceBody2"
-                    android:textColor="?android:attr/textColorSecondary" />
+                    android:text="Description" />
 
             </LinearLayout>
 

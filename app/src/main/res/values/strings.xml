@@ -55,4 +55,7 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="content_step_0">Step 0</string>
+    <string name="content_step_1">Step 1</string>
+    <string name="content_step_2">Step 2</string>
 </resources>

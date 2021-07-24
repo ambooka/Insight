@@ -5,20 +5,69 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
         <item name="colorOnPrimary">@color/colorAccent</item>
+
+
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+
         <!-- Customize your theme here. -->
         <item name="actionBarTheme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
         <item name="toolbarStyle">@style/actionbar_style</item>
+        <item name="iconTint">@color/white</item>
+
+        <!--Action menu Text color -->
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/white</item>
     </style>
 
     <style name="actionbar_style" parent="@style/Widget.MaterialComponents.Toolbar">
         <item name="titleTextColor">@color/white</item>
     </style>
 
+
+
+
+
+    <style name="TextAppearance.Widget.Stepper.Done" parent="TextAppearance.MaterialCompat.Body1">
+
+    </style>
+
+    <style name="TextAppearance.Widget.Stepper.Selected" parent="TextAppearance.MaterialCompat.Body2">
+
+    </style>
+
+    <style name="TextAppearance.Widget.Stepper.Normal" parent="TextAppearance.MaterialCompat.Body1">
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="Widget.Stepper" parent="">
+        <item name="step_normal_color">@color/colorPrimary</item>
+        <item name="step_activated_color">@color/colorAccent</item>
+        <item name="step_done_icon">@drawable/check</item>
+        <item name="step_animation_duration">@android:integer/config_shortAnimTime</item>
+        <item name="step_line_color">@color/black</item>
+        <item name="step_error_highlight_color">@color/red</item>
+    </style>
+
+    <style name="TextAppearance"/>
+
+    <style name="TextAppearance.MaterialCompat"/>
+
+    <style name="TextAppearance.MaterialCompat.Body1">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.MaterialCompat.Body2">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
 
 </resources>
